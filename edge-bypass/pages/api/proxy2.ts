@@ -27,7 +27,11 @@ export default async function handler(
   if (req.method === "POST") {
     // const buf = await buffer(req);
     // const rawBody = buf.toString("utf8");
-    req.pipe(res);
+    // req.pipe(res);
+    for await (const chunk of req) {
+      // chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
+      console.log(chunk);
+    }
 
     setTimeout(() => {
       console.log("after 2 sens");
