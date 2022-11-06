@@ -25,7 +25,7 @@ export default function handler(
       Number(remotePort),
       serverAddress,
       () => {
-        console.log("request proxy to", serverAddress);
+        console.log("request proxy to", serverAddress, Number(remotePort));
         req.pipe(proxyToServerSocket);
         // clientToProxySocket.pipe(proxyToServerSocket);
         proxyToServerSocket.pipe(res);
