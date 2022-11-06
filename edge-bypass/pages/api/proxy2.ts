@@ -30,13 +30,15 @@ export default async function handler(
     // req.pipe(res);
     for await (const chunk of req) {
       // chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
+      console.log("inside chunk");
       console.log(chunk);
+      res.json({ chunk });
     }
 
-    setTimeout(() => {
-      console.log("after 2 sens");
-      res.json({ key: "aaa" });
-    }, 2000);
+    // setTimeout(() => {
+    //   console.log("after 2 sens");
+    //   res.json({ key: "aaa" });
+    // }, 2000);
   } else {
     res.setHeader("Allow", "POST");
     res.status(405).end("Method Not Allowed");
