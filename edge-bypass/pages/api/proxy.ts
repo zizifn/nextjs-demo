@@ -6,7 +6,7 @@ export const config = {
     bodyParser: false,
   },
 };
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
@@ -20,17 +20,19 @@ export default function handler(
   }
 
   try {
-    // res.end();
-    let proxyToServerSocket = net.createConnection(
-      Number(remotePort),
-      serverAddress,
-      () => {
-        console.log("request proxy to", serverAddress, Number(remotePort));
-        req.pipe(proxyToServerSocket);
-        // clientToProxySocket.pipe(proxyToServerSocket);
-        proxyToServerSocket.pipe(res);
-      }
-    );
+    const proxyToServerSocket = await new Promise<net.Socket>((res, rej) => {
+      let socket = net.createConnection(
+        Number(remotePort),
+        serverAddress,
+        () => {
+          console.log("request proxy to", serverAddress, Number(remotePort));
+          res(socket);
+        }
+      );
+    });
+    req.pipe(proxyToServerSocket);
+    // clientToProxySocket.pipe(proxyToServerSocket);
+    proxyToServerSocket.pipe(res);
     proxyToServerSocket.on("error", (err) => {
       console.log("PROXY TO SERVER ERROR");
       console.log(err);
@@ -39,5 +41,5 @@ export default function handler(
     console.log("on error", error);
   }
 
-  console.log("ddddd");
+  console.log("end");
 }
