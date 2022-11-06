@@ -30,7 +30,8 @@ export default async function handler(
     req.pipe(res);
 
     setTimeout(() => {
-      res.end();
+      console.log("after 2 sens");
+      res.json({ key: "aaa" });
     }, 2000);
   } else {
     res.setHeader("Allow", "POST");
