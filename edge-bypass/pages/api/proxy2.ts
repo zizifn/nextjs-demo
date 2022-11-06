@@ -22,10 +22,10 @@ export default async function handler(
   console.log("start");
 
   if (req.method === "POST") {
-    const buf = await buffer(req);
-    const rawBody = buf.toString("utf8");
+    // const buf = await buffer(req);
+    // const rawBody = buf.toString("utf8");
 
-    res.json({ rawBody });
+    req.pipe(res);
   } else {
     res.setHeader("Allow", "POST");
     res.status(405).end("Method Not Allowed");
