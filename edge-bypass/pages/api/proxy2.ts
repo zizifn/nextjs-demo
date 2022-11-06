@@ -34,6 +34,7 @@ export default async function handler(
       console.log(chunk);
       res.json({ chunk });
     }
+    console.log("end");
 
     // setTimeout(() => {
     //   console.log("after 2 sens");
