@@ -5,13 +5,14 @@ type Data = {
   name: string;
 };
 
-export default async function handler(
+export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const json = await fetch("https://rickandmortyapi.com/api/character").then(
-    (res) => res.json()
-  );
+  fetch("https://rickandmortyapi.com/api/character")
+    .then((res) => res.json())
+    .then((json) => {
+      res.status(200).json(json);
+    });
   console.log(req.headers);
-  res.status(200).json(json);
 }

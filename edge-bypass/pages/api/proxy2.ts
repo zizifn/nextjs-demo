@@ -19,6 +19,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  console.log("start");
+
   if (req.method === "POST") {
     const buf = await buffer(req);
     const rawBody = buf.toString("utf8");
