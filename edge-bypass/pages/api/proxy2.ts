@@ -18,26 +18,21 @@ export default function handler(
     res.status(200).json({ name: "proxy" });
     return;
   }
-
-  try {
-    // res.end();
-    let proxyToServerSocket = net.createConnection(
-      Number(remotePort),
-      serverAddress,
-      () => {
-        console.log("request proxy to", serverAddress, Number(remotePort));
-        req.pipe(proxyToServerSocket);
-        // clientToProxySocket.pipe(proxyToServerSocket);
-        proxyToServerSocket.pipe(res);
-      }
-    );
-    proxyToServerSocket.on("error", (err) => {
-      console.log("PROXY TO SERVER ERROR");
-      console.log(err);
-    });
-  } catch (error) {
-    console.log("on error", error);
-  }
+  let datas: any[] = [];
+  req.on("data", (chunk) => {
+    try {
+      //console.log("To JSON : ",chunk.toJSON())
+      //console.log("To String : ",chunk.toString())
+      //console.log(chunk.isEncoding())
+      datas.push(chunk);
+    } catch (e) {
+      console.log("Data : ", e);
+    }
+  });
+  req.on("end", () => {
+    console.log(datas[0]);
+    res.status(200).json({ data: null, error: "Success" });
+  });
 
   console.log("ddddd");
 }

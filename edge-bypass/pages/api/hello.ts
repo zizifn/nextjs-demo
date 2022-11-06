@@ -12,5 +12,6 @@ export default async function handler(
   const json = await fetch("https://rickandmortyapi.com/api/character").then(
     (res) => res.json()
   );
+  console.log(req.headers);
   res.status(200).json(json);
 }
