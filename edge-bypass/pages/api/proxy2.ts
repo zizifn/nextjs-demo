@@ -20,7 +20,10 @@ export default async function handler(
   res: NextApiResponse
 ) {
   console.log("start");
-
+  const serverAddress = req.headers["x-host"] as string;
+  const remotePort = req.headers["x-port"];
+  const index = req.headers["x-count"];
+  console.log(`${serverAddress} + port ${remotePort} + index ${index}`);
   if (req.method === "POST") {
     // const buf = await buffer(req);
     // const rawBody = buf.toString("utf8");
