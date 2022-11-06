@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import net, { NetConnectOpts, TcpNetConnectOpts } from "node:net";
+import { Transform } from "node:stream";
 export const config = {
   api: {
     bodyParser: false,
@@ -30,9 +31,27 @@ export default async function handler(
         }
       );
     });
-    req.pipe(proxyToServerSocket);
+    req
+      .pipe(
+        new Transform({
+          transform(chunk, encoding, callback) {
+            console.log("req", Date(), chunk);
+            callback(null, chunk);
+          },
+        })
+      )
+      .pipe(proxyToServerSocket);
     // clientToProxySocket.pipe(proxyToServerSocket);
-    proxyToServerSocket.pipe(res);
+    proxyToServerSocket
+      .pipe(
+        new Transform({
+          transform(chunk, encoding, callback) {
+            console.log("---res", Date(), chunk);
+            callback(null, chunk);
+          },
+        })
+      )
+      .pipe(res);
     proxyToServerSocket.on("error", (err) => {
       console.log("PROXY TO SERVER ERROR");
       console.log(err);
