@@ -20,8 +20,13 @@ try {
     },
   }).pipeThrough(new TextEncoderStream());
 
-  const url = "https://vercel.zizi.press/api/proxy2";
+  // const url = "https://vercel.zizi.press/api/proxy2";
+  // const url =
+  //   "https://63692f238d862800a4d6b8fb--sweet-squirrel-0e1a16.netlify.app/api/proxy2";
+
   // const url = "http://localhost:3000/api/proxy2";
+  const url = "http://localhost:8080";
+
   const resp = await fetch(url, {
     method: "POST",
     headers: {

@@ -1,16 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import type { Readable } from "node:stream";
+import http from "node:http";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+const requestListener = async function (req, res) {
   console.log("start");
   if (req.method === "POST") {
     let index = 0;
@@ -24,6 +14,9 @@ export default async function handler(
     res.end();
   } else {
     res.setHeader("Allow", "POST");
-    res.status(405).end("Method Not Allowed");
+    res.writeHead(405).end("Method Not Allowed");
   }
-}
+};
+
+const server = http.createServer(requestListener);
+server.listen(8080);
