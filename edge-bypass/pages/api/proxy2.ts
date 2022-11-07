@@ -20,26 +20,16 @@ export default async function handler(
   res: NextApiResponse
 ) {
   console.log("start");
-  const serverAddress = req.headers["x-host"] as string;
-  const remotePort = req.headers["x-port"];
-  const index = req.headers["x-count"];
-  console.log(`${serverAddress} + port ${remotePort} + index ${index}`);
   if (req.method === "POST") {
-    // const buf = await buffer(req);
-    // const rawBody = buf.toString("utf8");
-    // req.pipe(res);
+    let index = 0;
+    res.writeHead(200);
     for await (const chunk of req) {
-      // chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
-      console.log("inside chunk");
-      console.log(chunk);
-      res.json({ chunk });
+      console.log(`client send ${chunk.toString()}`);
+      res.write(
+        `server response ${index++}, after client send ${chunk.toString()}`
+      );
     }
-    console.log("end");
-
-    // setTimeout(() => {
-    //   console.log("after 2 sens");
-    //   res.json({ key: "aaa" });
-    // }, 2000);
+    res.end();
   } else {
     res.setHeader("Allow", "POST");
     res.status(405).end("Method Not Allowed");
