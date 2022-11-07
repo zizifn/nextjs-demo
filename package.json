@@ -20,5 +20,8 @@
     "react-dom": "18.2.0",
     "typescript": "4.8.4",
     "undici": "^5.12.0"
+  },
+  "devDependencies": {
+    "@netlify/plugin-nextjs": "^4.28.4-appdir.0"
   }
 }
