@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { Readable } from "node:stream";
 
 export const config = {
   api: {
