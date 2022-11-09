@@ -5,44 +5,20 @@ const hello = async (req: NextRequest) => {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
 
-  // const readableStream2 = req.body?.pipeThrough(
-  //   new TransformStream({
-  //     transform(chunk, controller) {
-  //       console.log("[transform]", decoder.decode(chunk));
-  //       controller.enqueue(chunk);
-  //     },
-  //     flush(controller) {
-  //       console.log("[flush]");
-  //       controller.terminate();
-  //     },
-  //   })
-  // );
-  const readableStream2 = new ReadableStream({
-    index: 0,
-    start(controller) {
-      const interval = setInterval(() => {
-        controller.enqueue(`client send ${this.index++}`);
-      }, 500);
-
-      setTimeout(() => {
-        clearInterval(interval);
-        controller.close();
-      }, 10_000);
-    },
-  } as UnderlyingSource & { index: number }).pipeThrough(
-      new TransformStream({
-        transform(chunk, controller) {
-          console.log("[transform]", chunk);
-          controller.enqueue(encoder.encode(chunk));
-        },
-        flush(controller) {
-          console.log("[flush]");
-          controller.terminate();
-        },
-      })
-    );
+  const readableStream2 = req.body?.pipeThrough(
+    new TransformStream({
+      transform(chunk, controller) {
+        console.log("[transform]", decoder.decode(chunk));
+        controller.enqueue(chunk);
+      },
+      flush(controller) {
+        console.log("[flush]");
+        controller.terminate();
+      },
+    })
+  );
   return new Response(readableStream2, {
-    headers: { "Content-Type": "text/html; charset=utf-8" },
+    headers: { "Content-Type": "text/plain; charset=utf-8" },
   });
 };
 
