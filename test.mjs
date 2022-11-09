@@ -25,7 +25,9 @@ try {
   //   "https://63692f238d862800a4d6b8fb--sweet-squirrel-0e1a16.netlify.app/api/proxy2";
 
   // const url = "http://localhost:3000/api/proxy2";
-  const url = "http://localhost:8080";
+  // const url = "http://localhost:3000/api/edge";
+  // const url = "https://vercel.zizi.press/api/edge";
+  const url = "https://nextjs-dawx.onrender.com/api/proxy2";
 
   const resp = await fetch(url, {
     method: "POST",
