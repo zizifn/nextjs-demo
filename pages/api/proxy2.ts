@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export const config = {
+  runtime: "experimental-edge",
   api: {
     bodyParser: false,
   },

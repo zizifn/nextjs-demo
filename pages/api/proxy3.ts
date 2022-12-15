@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { Readable } from "node:stream";
-import { ReadableStream } from "node:stream/web";
 
 export const config = {
+  runtime: "experimental-edge",
   api: {
     bodyParser: false,
   },
@@ -29,8 +28,8 @@ export default async function handler(
   } as UnderlyingSource & { index: number });
   res.writeHead(200);
 
-  for await (let chunk of readableStream) {
-    res.write(chunk);
-  }
-  res.end();
+  // for await (let chunk of readableStream) {
+  //   res.write(chunk);
+  // }
+  // res.end();
 }
